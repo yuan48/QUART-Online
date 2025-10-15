@@ -20,7 +20,7 @@ Install the environment
 pip install -r requirements.txt
 ```
 
-Download the Quart-online checkpoint
+Download the Quart-online checkpoint: [model and vq checkpoint](https://huggingface.co/Tong314/Quart-Online/tree/main)
 Test the environment by running model inference (Memory required float16: >19GB, float32: >37GB)
 Note: if using V100 it didn't support float32. We use A100 as the training GPU, and inference could run on 3090.
 

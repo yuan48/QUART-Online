@@ -3,8 +3,8 @@
 source /opt/conda/bin/activate llava
 PROJECT_PATH='your/quart/path' 
 
-CKPT_PATH="${PROJECT_PATH}/ckpts/quart_online"
-VQ_CKPT_PATH="${PROJECT_PATH}/vq_state_dict/Sequence_vq_10_each_conv.pt"
+CKPT_PATH="${PROJECT_PATH}/ckpts"
+VQ_CKPT_PATH="${PROJECT_PATH}/ckpts/vq_state_dict/Sequence_vq_10_each_conv.pt"
 TEST_TYPE="seen"
 SAVE_FOLDER="${PROJECT_PATH}/output"
 MODEL_NAME="Quart_online"

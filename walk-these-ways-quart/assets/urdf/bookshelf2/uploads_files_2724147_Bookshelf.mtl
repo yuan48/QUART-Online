@@ -1,0 +1,14 @@
+# Blender MTL File: 'Bookshelf.blend'
+# Material Count: 1
+
+newmtl Material.001
+Ns 295.214866
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+map_Ka TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+map_Kd TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+illum 2

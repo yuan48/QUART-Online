@@ -1,0 +1,23 @@
+<robot name="none">
+       <link name="none">
+           <visual>
+               <origin xyz="0 0 0.5" />
+               <geometry>
+                   <mesh filename="computer.obj" /> 
+                   <!-- 这里改成对应的obj名称 -->
+               </geometry>
+           </visual>
+          <collision>
+<origin rpy="1.57 0 0" xyz="0 0 0.5" />
+              <geometry>
+                  <box size="2.0 1 0.6" />
+                  <!-- 这里的size，可以多试几次改成差不多体积的长宽高 -->
+              </geometry>
+          </collision>
+
+          <inertial>
+            <mass value="20.0" />
+            <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.05"/>
+          </inertial>
+      </link>
+  </robot>

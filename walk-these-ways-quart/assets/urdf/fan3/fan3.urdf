@@ -1,0 +1,21 @@
+<robot name="none">
+       <link name="none">
+           <visual>
+               <origin  rpy="-1.57 0  1.57" xyz="0 0 0" />
+               <geometry>
+                   <mesh filename="obj.obj"   scale="0.8 0.8 0.8"/>
+               </geometry>
+           </visual>
+          <collision>
+<origin rpy="1.57 0 0" xyz="0 0 0.25" />
+              <geometry>
+                  <box size="0.676789 0.5 0.545188" />
+              </geometry>
+          </collision>
+
+          <inertial>
+            <mass value=".0" />
+            <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.05"/>
+          </inertial>
+      </link>
+  </robot>

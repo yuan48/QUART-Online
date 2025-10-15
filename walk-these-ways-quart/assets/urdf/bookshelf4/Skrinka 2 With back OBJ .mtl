@@ -1,0 +1,90 @@
+# Blender MTL File: 'Skrinka 2 BLEND.blend'
+# Material Count: 8
+
+newmtl Black
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Dvere_Black
+Ns 110.250015
+Ka 1.000000 1.000000 1.000000
+Kd 0.014413 0.014413 0.014413
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Material
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 3
+map_Ka TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+map_Kd TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+
+newmtl Material.002
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 3
+map_Ka TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+map_Kd TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+
+newmtl Material.003
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 3
+map_Ka TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+map_Kd TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+
+newmtl Material.004
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 3
+map_Ka TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+map_Kd TexturesCom_WoodPlanksClean0101_2_seamless_S.jpg
+
+newmtl Material.005
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.014413 0.014413 0.014413
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl konstrukcia
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.014413 0.014413 0.014413
+Ks 0.500000 0.500000 0.500000
+Ke 0.0 0.0 0.0
+Ni 1.450000
+d 1.000000
+illum 2

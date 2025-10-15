@@ -1,0 +1,21 @@
+<robot name="none">
+       <link name="none">
+           <visual>
+               <origin rpy=" 0 0 0" xyz="0 0 0" />
+               <geometry>
+                   <mesh filename="uploads_files_2740235_Drawer_chest.obj"  scale="1 1 1"/>
+               </geometry>
+           </visual>
+          <collision>
+<origin rpy="1.57 0 0" xyz="0 0 0.5" />
+              <geometry>
+                  <box size=" 1.060000 1.00000 0.850000" />
+              </geometry>
+          </collision>
+
+          <inertial>
+            <mass value=".0" />
+            <inertia ixx="0.05" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.05"/>
+          </inertial>
+      </link>
+  </robot>

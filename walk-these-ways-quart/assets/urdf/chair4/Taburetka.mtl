@@ -1,0 +1,59 @@
+# Blender MTL File: 'None'
+# Material Count: 5
+
+newmtl Taburetka
+Ns 94.117647
+Ka 0.085714 0.085714 0.085714
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Taburetka.png
+
+newmtl Taburetka-DSP
+Ns 529.411765
+Ka 1.000000 1.000000 1.000000
+Kd 0.366024 0.235698 0.122063
+Ks 0.052334 0.044189 0.032309
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Taburetka.png
+map_Bump Taburetka-n.png
+
+newmtl Taburetka-me
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.138683 0.024088 0.005613
+Ks 0.377981 0.182156 0.113279
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Taburetka.png
+map_Bump Taburetka-n.png
+
+newmtl Taburetka-nojki
+Ns 94.117647
+Ka 0.040326 0.040326 0.040326
+Kd 0.267458 0.083712 0.053203
+Ks 0.500000 0.384040 0.202422
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Taburetka.png
+
+newmtl Taburetka-plastik
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Taburetka.png

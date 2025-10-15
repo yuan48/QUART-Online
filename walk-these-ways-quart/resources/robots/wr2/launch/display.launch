@@ -1,0 +1,12 @@
+<launch>
+  <arg name="model" />
+
+  <param name="robot_description" textfile="$(find wr2)/urdf/wr2.urdf" />
+
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" /> 
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <node pkg="rviz" type="rviz" name="rviz" respawn="false" output="screen"
+        args="-d $(find wr2)/launch/check_joint.rviz"/>
+</launch>

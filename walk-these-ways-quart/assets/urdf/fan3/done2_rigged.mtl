@@ -1,0 +1,19 @@
+# 
+# Wavefront material file
+# Created with Kaydara FBX
+# 
+
+newmtl Gitter_Ventilator
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.581081 0.581081 0.581081
+illum 2
+Ns 53.000000
+Tr 0.000000
+
+newmtl Ventilator_wei
+map_Kd Fan_Col.png
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+illum 1
+Tr 1.000000

@@ -59,6 +59,7 @@ note: you need to first train a vq model using command.npy, then use the vq mode
 
 You can also just download the prepocessed data to train [preprocess 5hz data](https://).
 
+Then run the train script:
 
 ```bash
 bash ./train_script/train_fuyu_v2_step_10_sequence.sh

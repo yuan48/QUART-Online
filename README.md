@@ -57,7 +57,7 @@ Preprocessing the data in `./preprocess/vqdata_process.py` will convert original
 
 note: you need to first train a vq model using command.npy, then use the vq model to get vq_data npy.
 
-You can also just download the prepocessed data to train [preprocess 5hz data](https://).
+You can also just download the prepocessed data to train [preprocess 5hz data](https://drive.google.com/file/d/1B3ldn49Wpd3G5t9OCmmBK740vgAao4-F/view?usp=sharing).
 
 Then run the train script:
 

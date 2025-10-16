@@ -912,7 +912,6 @@ def train():
     global local_rank
     global exp_id
     
-    # 加载huggingface的参数
     parser = transformers.HfArgumentParser((ModelArguments, DataArguments, TrainingArguments))
     # parser.parse_args().tf32=False
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
@@ -921,14 +920,13 @@ def train():
     # embed()
 
     if 'pretrain' in model_args.training_mode:
-        print("pretrain mode！")
+        print("pretrain mode!")
         training_args.lora_enable = False
         training_args.bits = 16
     else:
         pass
 
-    # init wandb
-    # bug: 如果给定有用的地址的话，我新建的wandb.log就加载不进去
+
     log_dir = './log/pre-training'
     training_args.output_dir = training_args.output_dir + \
                                  "lr{}" .format(training_args.learning_rate) +  \
@@ -954,7 +952,6 @@ def train():
 
     if 'Fuyu' in exp_id:
         model = Quart2FuyuForCausalLM.from_pretrained(
-            #在最顶ModelArguments类别有设model_name_or_path='/dingpengxiang/Pretrained/huggingface/hub/models--adept--fuyu-8b'
             model_args.model_name_or_path,   
             local_files_only=True,
             exp_id=model_args.exp_id
@@ -962,17 +959,17 @@ def train():
         if 'v0' in exp_id:
             pass
         else:
-            # 冻结住LLM的参数
+            # freeze llm parameter
             for p in model.language_model.parameters():
                     p.requires_grad = False
     else:
         pass
     
-    # fuyu模型的设置
+    # fuyu model setting
     data_args.model_max_length = training_args.model_max_length
     # embed()
 
-    # 是否修改视觉encoder
+    # whether change encoder
     model.config.tune_mm_mlp_adapter = training_args.tune_mm_mlp_adapter = model_args.tune_mm_mlp_adapter
     print('If train the visual adapter:{}'.format(training_args.tune_mm_mlp_adapter))
     if not training_args.tune_mm_mlp_adapter:
@@ -991,10 +988,27 @@ def train():
     else:
         pass
     
+
+    if 'LLaVA' in exp_id:
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_args.model_name_or_path,
+            cache_dir=training_args.cache_dir,
+            model_max_length=training_args.model_max_length,
+            padding_side="right",
+            use_fast=False,
+        )
+        tokenizer.pad_token = tokenizer.unk_token
+        if model_args.version in conversation_lib.conv_templates:
+            conversation_lib.default_conversation = conversation_lib.conv_templates[model_args.version]
+        else:
+            conversation_lib.default_conversation = conversation_lib.conv_templates["vicuna_v1"]
+    else:
+        tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path)
     
 
     rank0_print("Load datasets: begin!")
 
+    # import pdb; pdb.set_trace()
     data_module = make_action_supervised_data_module(tokenizer=tokenizer,
                                               data_args=data_args,
                                               model_args=model_args)

@@ -223,11 +223,11 @@ if __name__ == "__main__":
     sim_sample_rate = 10  # sim_command_dict里间隔的频率
     ahead_step=10  #vq提前预测的步数
 
-    sim_path = os.path.join('/dingpengxiang/Datasets/sim_quadruped_data_v1')  #'/wangdonglin/sim_quadruped_data_v1'
-    sim_path_unload = os.path.join('/dingpengxiang/Datasets/sim_quadruped_data_unload')  #'/wangdonglin/sim_quadruped_data_unload'
-    sim_info_path = '/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_quadruped_data_info'
+    sim_path = os.path.join('Datasetspath}/Datasets/sim_quadruped_data_v1')  #'/wangdonglin/sim_quadruped_data_v1'
+    sim_path_unload = os.path.join('{Datasetspath}/sim_quadruped_data_unload')  #'/wangdonglin/sim_quadruped_data_unload'
+    sim_info_path = './datasets/Full/sim_quadruped_data_info'
     sim_instruction_dict = SIM_INSTRUCTION_DICT[instructions_key]
 
-    sim_json_path = os.path.join('/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_json_path') #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_json_path'
+    sim_json_path = os.path.join('./datasets/Full/sim_json_path') #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_json_path'
     make_vq_json(sim_instruction_dict, sim_info_path, sim_info_path, sim_json_path, sim_path, sim_path_unload, sim_sample_rate, ahead_step)
 

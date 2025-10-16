@@ -1,20 +1,20 @@
 #!/bin/bash
-source /opt/conda/bin/activate llava
 
 # add root path
-ROOT_PATH=/tongxinyang/projects/QUART_publish_shorted
+ROOT_PATH=/your/quart/path
 cd $ROOT_PATH
 export PYTHONPATH=$PYTHONPATH:$ROOT_PATH
 unset LD_LIBRARY_PATH
 
-RAW_DATA_PATH=/wangdonglin
+##original dataset path, but not needed for training, only jsons and command.npy are needed
+RAW_DATA_PATH=/datapath 
 # fuyu-8b path
-PRETRAINED_CKPT_PATH=./Pretrained/huggingface/hub/models--adept--fuyu-8b
+PRETRAINED_CKPT_PATH=./models--adept--fuyu-8b
 
 current_time=$(date +%Y%m%d)
 # current_time=20240830_sequence_5
 DATASET_TYPE=Full
-TRAINING_DATA_PATH=./datasets/$DATASET_TYPE/sim_json_path/sim_ahead_10_seq.json 
+TRAINING_DATA_PATH=./dataset/Full/sim_json_path/sim_ahead_10_seq.json
 LEARNING_RATE=2e-5
 SAVE_STEPS=10000
 TRAINING_MODE=pretrain
@@ -30,7 +30,7 @@ OUTPUT_CKPT_PATH=./ckpts/$EXP_ID/$current_time/
 VOCAB_NAME=vocab_fuyu.json
 
 deepspeed ./train_ahead_n.py \
-    --deepspeed ../Quart/scripts/zero3.json \
+    --deepspeed ./scripts/zero3.json \
     --model_name_or_path  $PRETRAINED_CKPT_PATH\
     --trainingdata_path  $TRAINING_DATA_PATH\
     --evaluatingdata_path ./datasets/test_real_v1_vel_1.json \

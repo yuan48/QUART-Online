@@ -1,8 +1,6 @@
 #!/bin/bash
 
-source /opt/conda/bin/activate llava
 PROJECT_PATH='your/quart/path' 
-
 CKPT_PATH="${PROJECT_PATH}/ckpts"
 VQ_CKPT_PATH="${PROJECT_PATH}/ckpts/vq_state_dict/Sequence_vq_10_each_conv.pt"
 TEST_TYPE="seen"

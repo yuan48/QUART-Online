@@ -1,10 +1,7 @@
 import numpy as np
 import os
 from tqdm import tqdm
-# a=[[1,2,3],[2,3,4]]
-# b=[[5,6,7],[6,7,8]]
-# np.save('1.npy', a)
-# np.save('2.npy', b)
+# split vq into step chunksß
 
 split_step=10
 

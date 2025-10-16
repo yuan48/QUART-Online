@@ -6,3 +6,4 @@ scipy==1.10.1
 tensorboard==2.14.0
 accelerate==1.0.1
 openpyxl==3.1.5
+deepspeed==0.13.4

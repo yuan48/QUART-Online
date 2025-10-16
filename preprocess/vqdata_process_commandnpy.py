@@ -1,3 +1,5 @@
+# This code is used to sample data from origin dataset (50hz) to 5hz, 
+# and managed to change origin episode npys to a command.py, proprioceptions.npy, and task jsons that are adapt to llm format
 import sys
 from init_path import SIM_INSTRUCTION_DICT, REAL_INSTRUCTION_DICT
 
@@ -624,22 +626,6 @@ def make_real_token_and_json(root_path,info_path,task,range_dict,json_list,image
     all_dict_path = os.path.join(info_path, "commands.npy")
     all_dict = np.load(all_dict_path, allow_pickle=True).item()
 
-    # dxmax = range_dict['dx_max']
-    # dxmin = range_dict['dx_min']
-    # dymax = range_dict['dy_max']
-    # dymin = range_dict['dy_min']
-    # dyawmax = range_dict['dyaw_max']
-    # dyawmin = range_dict['dyaw_min']
-    # body_height_max = range_dict['body_height_max'] 
-    # body_height_min = range_dict['body_height_min'] 
-    # step_frequency_max = range_dict['step_frequency_max'] 
-    # step_frequency_min = range_dict['step_frequency_min'] 
-    # footswing_height_max = range_dict['footswing_height_max'] 
-    # footswing_height_min = range_dict['footswing_height_min'] 
-    # pitch_max = range_dict['pitch_max'] 
-    # pitch_min = range_dict['pitch_min'] 
-    # stance_width_max = range_dict['stance_width_max'] 
-    # stance_width_min = range_dict['stance_width_min']
 
     task_path = os.path.join(root_path, task)
     if os.path.exists(task_path):

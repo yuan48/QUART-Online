@@ -1,3 +1,6 @@
+# Revised from quart code
+# This code is used to sample data from origin dataset (50hz) to 5hz, 
+# and managed to change origin episode npys to a command.py, proprioceptions.npy, and task jsons that are adapt to llm format
 import sys
 from init_path import SIM_INSTRUCTION_DICT, REAL_INSTRUCTION_DICT
 
@@ -860,7 +863,7 @@ if __name__ == "__main__":
 
     # get three ranges files of commands（real, sim, merged）
     
-    #info_path存的是command.npy, get_json是在command.npy基础上加工频率和range， merged_single_json是把各个子任务json合为一个real.json/sim.json,merged_multiple_json是把sim和real组合
+    #info_path saved command.npy, get_json add frquency and range on the base of command.npy， merged_single_json combine all json as one real.json/sim.json,merged_multiple_json combine sim and real
 
     sim_sample_rate = 10  # sim_command_dict里间隔的频率
     sim_path = os.path.join(RAW_DATA_PATH, 'sim_quadruped_data_v1')  #'/wangdonglin/sim_quadruped_data_v1'

@@ -65,13 +65,13 @@ if __name__ == "__main__":
     else:
         ahead_step=3  #提前预测的step数
         instructions_key = 'Full' 
-        ROOT_PATH='/dingpengxiang/Pengxiang/Quart++'
+        ROOT_PATH='/dingpengxiang/Pengxiang/Quart'
         data_type='sim'
-        json_save_name='sim.json'  #/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_json_path/sim.json
+        json_save_name='sim.json'  #./Quart++/datasets/Full/sim_json_path/sim.json
 
         # data_type='han_quart'
         # json_save_name='han_quart.json'
         sim_instruction_dict = SIM_INSTRUCTION_DICT[instructions_key]
         sim_json_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'sim_json_path') #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_json_path'
 
-        merged_single_json(sim_json_path, sim_instruction_dict, data_type, json_save_name)  #单独把sim的json融合子任务为sim.json
+        merged_single_json(sim_json_path, sim_instruction_dict, data_type, json_save_name)  #just combine all sim tasks into sim.json

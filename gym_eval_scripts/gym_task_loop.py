@@ -73,7 +73,6 @@ if __name__ == "__main__":
     parser.add_argument('--vq_ckpt_path', type=str, required=True, help='vq path')
 
 
-    # 解析参数
     args = parser.parse_args()
     args.headless = args.headless.lower() == 'true'
     # task_lists=ast.literal_eval(settings['task_lists'])  
@@ -102,4 +101,4 @@ if __name__ == "__main__":
     if save_statistic:
         import pdb; pdb.set_trace()
         result_path = os.path.join(args.save_folder,formatted_datetime)
-        count_success(args, task_cfg, result_path)
+        count_success(result_path)

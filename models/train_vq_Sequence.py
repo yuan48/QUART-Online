@@ -29,15 +29,15 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if timestep=="one":
     model = RVQ(layers_hidden=[2048, 2048, 2048, 512], input_dim=input_dim, K=512, num_quantizers=2, output_act=False)
     trainset = action_tokenize_dataset('/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_quadruped_data_info/vq_data.npy')
-elif timestep=="n":  #mlp层的n序列压缩，最终没用
+elif timestep=="n":  # MLP-based n-sequence compression (not used in final version)
     model = RVQ_n(layers_hidden=[2048, 2048, 2048, 512], input_dim=input_dim, K=512, num_quantizers=2, output_act=False)
     trainset = action_tokenize_dataset_n(step)
     save_pt_name= 'asa_vq_predict_'+str(step)+'_step.pt'
-elif timestep=="n_oneSlice": #把所有时间步flatten到一维，最终没用
+elif timestep=="n_oneSlice": # Flatten all timesteps to 1D (not used in final version)
     input_dim=36
     model = RVQ_n(layers_hidden=[2048, 2048, 2048, 512], input_dim=input_dim, K=512, num_quantizers=3, output_act=False)
     trainset = action_tokenize_dataset_n('/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_quadruped_data_info/vq_data_step_3_oneSlice.npy')
-elif timestep=="n_Seq":  #最后时间序列用的这个
+elif timestep=="n_Seq":  # Final version: sequence-based temporal modeling
     split_mode='Each'
     if step==3:
         model = RVQ_Seq(layers_hidden=[512, 512], input_dim=input_dim, K=512, num_quantizers=2, output_act=False)
@@ -46,9 +46,9 @@ elif timestep=="n_Seq":  #最后时间序列用的这个
     elif step == 10:
         model = RVQ_Seq_10(layers_hidden=[512, 512, 512, 512], input_dim=input_dim, K=512, num_quantizers=2, output_act=False)
 
-    if split_mode=='Each':  #每一步都取该步往后n步的数据集，最终采用
+    if split_mode=='Each':  # Each timestep with n future steps (final approach)
         save_pt_name='Sequence_vq_'+str(step)+'_each_conv.pt'
-    else:   #间隔n步采一次的数据集，最终没用
+    else:   # Sample every n steps (not used in final version)
         save_pt_name='Sequence_vq_'+str(step)+'_interval.pt'
     trainset = action_tokenize_dataset_n(step, split_mode)
 
@@ -61,10 +61,10 @@ optimizer = optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-4)
 scheduler = optim.lr_scheduler.ConstantLR(optimizer)
 
 
-# 划分出testLoader
+# Split dataset into train and validation sets
 train_proportion=0.85
-train_size = int(train_proportion * len(trainset))  # 训练集占90%
-test_size = len(trainset) - train_size  # 测试集占10%
+train_size = int(train_proportion * len(trainset))  # 85% for training
+test_size = len(trainset) - train_size  # 15% for validation
 trainset, valset = random_split(trainset, [train_size, test_size])
 
 trainloader = DataLoader(trainset, batch_size=1024, shuffle=True)
@@ -95,9 +95,8 @@ for epoch in range(50):
             output, code, codebook_loss = model(targets)
             loss = model.loss_function(output, targets, codebook_loss)
 
-            # #这个部分算困惑度
-            # import pdb; pdb.set_trace()
-            # reshaped_data = code.reshape((-1, 1)) #将(681440, 2)变为(340720, 2, 2)
+            # Optional: calculate perplexity metric
+            # reshaped_data = code.reshape((-1, 1))
             # encodings = torch.zeros(reshaped_data.shape[0], 512).cuda()
             # encodings.scatter_(1, code, 1)
             # avg_probs = torch.mean(encodings, dim=0)

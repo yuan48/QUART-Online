@@ -287,12 +287,12 @@ class Quart2FuyuForCausalLM(FuyuPreTrainedModel):
             config.patch_size * config.patch_size * config.num_channels, config.hidden_size
         )
         if 'v1' in exp_id:
-            # v1 的policy head
+            # v1 policy head
             self.policy_head = nn.Linear(
                 config.hidden_size + 37, 256
             )
         elif 'v2' in exp_id:
-            # v2 的policy head
+            # v2 policy head
             self.policy_head = nn.Linear(
                 config.hidden_size + 37, 256 * 12
             )
@@ -585,7 +585,6 @@ class Quart2FuyuForCausalLM(FuyuPreTrainedModel):
             if 'v0' in exp_id:
                 output = logits[:, :-1, :] # [2, num_token, 262144]
                 labels = labels[:, 1:] # [2, num_token]
-                # labels 来做这个判断没毛病,判断label结束的标识
                 indexs = torch.nonzero(labels.flatten()==71013).squeeze() #llava是2 
 
                 c_loss = nn.CrossEntropyLoss(ignore_index=-100, reduction = 'none')(torch.flatten(output, start_dim=0, end_dim=1), labels.flatten())
@@ -611,7 +610,6 @@ class Quart2FuyuForCausalLM(FuyuPreTrainedModel):
                 output = logits[:, :-1, :] # [2, num_token, 256]
                 # need to change the label
                 labels = labels[:, 1:] # [2, num_token]
-                # labels 来做这个判断没毛病,判断label结束的标识
                 indexs = torch.nonzero(labels.flatten()==71013).squeeze() #llava是2 
 
                 extra_labels = extra_labels[:, 1:] # [2, num_token]
@@ -661,7 +659,6 @@ class Quart2FuyuForCausalLM(FuyuPreTrainedModel):
             else:
                 output = logits[:, :, :] # [2, 12, 256]
                 labels = labels[:, 1:] # [2, num_token]
-                # labels 来做这个判断没毛病,判断label结束的标识
                 indexs = torch.nonzero(labels.flatten()==71013).squeeze() #llava是2 
                 # print(indexs)
 
@@ -702,7 +699,6 @@ class Quart2FuyuForCausalLM(FuyuPreTrainedModel):
             #     wandb.log({"c_terminate_loss": terminate.item()})
 
         # TODO： 这边的输出可能需要考虑一下哈，后面可能会有问题
-        # 可以查查看BaseModelOutputWithPast的键值可不可以加入一些自设的一些变量
         if not return_dict:
             return tuple(v for v in outputs if v is not None)
         # provide a loss for trainer

@@ -15,7 +15,7 @@ class Linear1D(nn.Module):
         self.linear = nn.Linear(in_features, out_features)
 
     def forward(self, x):
-        # 对第二维度进行线性变换
+        # Apply linear transformation on the second dimension
         x = self.linear(x.transpose(1, 2)).transpose(1, 2)
         return x
 
@@ -165,7 +165,7 @@ class ResidualVectorQuantizer_Seq(nn.Module):
         return -torch.sum(torch.log(p) * p).item() / self.num_quantizers
     
 
-# 这个是seq_5
+# RVQ_Seq for 5-step sequence
 class RVQ_Seq(torch.nn.Module):
     def __init__(
         self,
@@ -233,25 +233,25 @@ class RVQ_Seq(torch.nn.Module):
         priori_dist = self.decoder(z)
         return priori_dist
 
-    #after_conv_dim x quantizers是中间tokenize后的压缩token数
+    # after_conv_dim x num_quantizers represents compressed token count after tokenization
     def forward(self, input, **kwargs): #[1024,t,12]
         # import pdb; pdb.set_trace()
-        input = self.preprocess(input)  #input_preprocess: [1024, 12, t]
-        encoding = self.encode(input)   #encoding: [1024,512,2]  (batch,conv_dim核数, after_conv_dim)
-        z, codes, codebook_loss = self.RVQ(encoding)  #z:[1024,512,2], codes:[2048,2]
-        decode_output=self.decode(z)  #decode_output: [1024,12,3]
-        output=self.postprocess(decode_output)  #output:[1024,3,12]
+        input = self.preprocess(input)  # input_preprocess: [1024, 12, t]
+        encoding = self.encode(input)   # encoding: [1024,512,2]  (batch, conv_dim, after_conv_dim)
+        z, codes, codebook_loss = self.RVQ(encoding)  # z:[1024,512,2], codes:[2048,2]
+        decode_output=self.decode(z)  # decode_output: [1024,12,3]
+        output=self.postprocess(decode_output)  # output:[1024,3,12]
         return output, codes, codebook_loss
     
     def tokenize(self, input, **kwargs):
-        input=self.preprocess(input)  #input_preprocess: [1024, 12, t]
+        input=self.preprocess(input)  # input_preprocess: [1024, 12, t]
         encoding = self.encode(input)
         return self.RVQ.quantize(encoding)
     
     def detokenize(self, input: torch.Tensor, n: Optional[int] = None):
         z = self.RVQ.dequantize(input, n)
         decode_output=self.decode(z)
-        output=self.postprocess(decode_output)  #output:[1024,3,12]
+        output=self.postprocess(decode_output)  # output:[1024,3,12]
         return output
 
     def loss_function(self,
@@ -271,7 +271,7 @@ class RVQ_Seq(torch.nn.Module):
 class RVQ_Seq_10(torch.nn.Module):
     def __init__(
         self,
-        layers_hidden=[2048, 2048, 2048, 512], #最终
+        layers_hidden=[2048, 2048, 2048, 512], # Final hidden layer configuration
         input_dim=11,
         K=512,
         num_quantizers=2,
@@ -339,25 +339,25 @@ class RVQ_Seq_10(torch.nn.Module):
         priori_dist = self.decoder(z)
         return priori_dist
 
-    #after_conv_dim x quantizers是中间tokenize后的压缩token数
+    # after_conv_dim x num_quantizers represents compressed token count after tokenization
     def forward(self, input, **kwargs): #[1024,t,12]
         # import pdb; pdb.set_trace()
-        input = self.preprocess(input)  #input_preprocess: [1024, 12, t]
-        encoding = self.encode(input)   #encoding: [1024,512,2]  (batch,conv_dim核数, after_conv_dim)
-        z, codes, codebook_loss = self.RVQ(encoding)  #z:[1024,512,2], codes:[2048,2]
-        decode_output=self.decode(z)  #decode_output: [1024,12,3]
-        output=self.postprocess(decode_output)  #output:[1024,3,12]
+        input = self.preprocess(input)  # input_preprocess: [1024, 12, t]
+        encoding = self.encode(input)   # encoding: [1024,512,2]  (batch, conv_dim, after_conv_dim)
+        z, codes, codebook_loss = self.RVQ(encoding)  # z:[1024,512,2], codes:[2048,2]
+        decode_output=self.decode(z)  # decode_output: [1024,12,3]
+        output=self.postprocess(decode_output)  # output:[1024,3,12]
         return output, codes, codebook_loss
     
     def tokenize(self, input, **kwargs):
-        input=self.preprocess(input)  #input_preprocess: [1024, 12, t]
+        input=self.preprocess(input)  # input_preprocess: [1024, 12, t]
         encoding = self.encode(input)
         return self.RVQ.quantize(encoding)
     
     def detokenize(self, input: torch.Tensor, n: Optional[int] = None):
         z = self.RVQ.dequantize(input, n)
         decode_output=self.decode(z)
-        output=self.postprocess(decode_output)  #output:[1024,3,12]
+        output=self.postprocess(decode_output)  # output:[1024,3,12]
         return output
 
     def loss_function(self,

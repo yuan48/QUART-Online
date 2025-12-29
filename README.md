@@ -4,9 +4,9 @@
 
 ### Latency-Free Large Multimodal Language Model for Quadruped Robot Learning
 
-[![arXiv](https://img.shields.io/badge/arXiv-2412.15557-b31b1b.svg)](https://arxiv.org/abs/2412.15557) [![Project Page](https://img.shields.io/badge/Project-Page-green)](https://quart-online.github.io/) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) [![PyTorch](https://img.shields.io/badge/PyTorch-2.1.0-orange.svg)](https://pytorch.org/)
+[![arXiv](https://img.shields.io/badge/arXiv-2412.15557-b31b1b.svg)](https://arxiv.org/abs/2412.15576) [![Project Page](https://img.shields.io/badge/Project-Page-green)](https://quart-online.github.io/) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) [![PyTorch](https://img.shields.io/badge/PyTorch-2.1.0-orange.svg)](https://pytorch.org/)
 
-[**Homepage**](https://quart-online.github.io/) | [**arXiv**](https://arxiv.org/abs/2412.15557) | [**Model Weights**](https://huggingface.co/Tong314/Quart-Online)
+[**Homepage**](https://quart-online.github.io/) | [**arXiv**](https://arxiv.org/abs/2412.15576) | [**Model Weights**](https://huggingface.co/Tong314/Quart-Online)
 
 ---
 
@@ -528,7 +528,7 @@ QUART-Online achieves state-of-the-art performance on various quadruped robot ta
 - **Inference Speed**: ~20ms per action (float16 on A100)
 - **Generalization**: Strong performance on unseen objects and scenes
 
-For detailed results, please refer to our [paper](https://arxiv.org/abs/2412.15557).
+For detailed results, please refer to our [paper](https://arxiv.org/abs/2412.15576).
 
 ---
 
@@ -600,7 +600,7 @@ For questions and discussions, please:
 
 - Open an [issue](https://github.com/yuan48/QUART-Online/issues)
 - Visit our [project page](https://quart-online.github.io/)
-- Read the [paper](https://arxiv.org/abs/2412.15557)
+- Read the [paper](https://arxiv.org/abs/2412.15576)
 
 ---
 

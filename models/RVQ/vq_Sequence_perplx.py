@@ -13,7 +13,6 @@ class Linear1D(nn.Module):
         self.linear = nn.Linear(in_features, out_features)
 
     def forward(self, x):
-        # 对第二维度进行线性变换
         x = self.linear(x.transpose(1, 2)).transpose(1, 2)
         return x
 

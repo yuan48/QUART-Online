@@ -1,10 +1,17 @@
 # Revised from quart code
 # This code is used to sample data from origin dataset (50hz) to 5hz, 
-# and managed to change origin episode npys to a command.py, proprioceptions.npy, and task jsons that are adapt to llm format
+# and managed to change origin episode npys to a commands.npy, proprioceptions.npy, and task jsons that are adapt to llm format
+# For quart-online, the generated JSON files from raw data and the range of the data are not used. 
+# Only the processed JSON in the following files is used.
 import sys
-from init_path import SIM_INSTRUCTION_DICT, REAL_INSTRUCTION_DICT
-
 import os
+
+# Use relative paths for cross-platform compatibility
+ROOT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT_PATH)
+
+from preprocess.init_path import SIM_INSTRUCTION_DICT, REAL_INSTRUCTION_DICT
+
 import math
 import json
 import random
@@ -12,12 +19,10 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-def get_sim_proprioception(sample_rate, sim_instruction_dict, data_path, data_path_unload, info_path, proprioception_keys):
+def get_sim_proprioception(sample_rate, sim_instruction_dict, data_path, info_path, proprioception_keys):
 
     # tasks in raw datasets
     tasks = next(os.walk(data_path))[1]
-    tasks_unload = next(os.walk(data_path_unload))[1]
-    tasks = tasks + tasks_unload
 
     # remove some tasks according to the key of instruction dict
     tasks = [i for i in tasks if i in list(sim_instruction_dict.keys())]
@@ -31,8 +36,6 @@ def get_sim_proprioception(sample_rate, sim_instruction_dict, data_path, data_pa
     for task in tqdm(tasks):
         # get the path of each task
         task_path = os.path.join(data_path, task)
-        if not os.path.exists(task_path):
-            task_path = os.path.join(data_path_unload, task)
 
         # get all episodes of current task
         episode_files = os.listdir(task_path)
@@ -102,12 +105,10 @@ def get_sim_proprioception(sample_rate, sim_instruction_dict, data_path, data_pa
     dict_path = os.path.join(info_path, "proprioceptions.npy")
     np.save(dict_path, all_proprioceptions_dict)
 
-def get_sim_ranges(sample_rate, sim_instruction_dict, data_path, data_path_unload, info_path):
+def get_sim_ranges(sample_rate, sim_instruction_dict, data_path, info_path):
 
     # tasks in raw datasets
     tasks = next(os.walk(data_path))[1]
-    tasks_unload = next(os.walk(data_path_unload))[1]
-    tasks = tasks + tasks_unload
 
     # remove some tasks according to the key of instruction dict
     tasks = [i for i in tasks if i in list(sim_instruction_dict.keys())]
@@ -137,8 +138,6 @@ def get_sim_ranges(sample_rate, sim_instruction_dict, data_path, data_path_unloa
     for task in tqdm(tasks):
         # get the path of each task
         task_path = os.path.join(data_path, task)
-        if not os.path.exists(task_path):
-            task_path = os.path.join(data_path_unload, task)
 
         # get all episodes of current task
         episode_files = os.listdir(task_path)
@@ -714,7 +713,7 @@ def make_real_token_and_json(root_path,info_path,task,range_dict,json_list,image
 
 
 
-def tasks_vq_json(sim_instruction_dict, ranges_info_path, commands_info_path, json_path, sim_path, sim_path_unload, sample_rate):
+def tasks_vq_json(sim_instruction_dict, ranges_info_path, commands_info_path, json_path, sim_path, sample_rate):
     # vq使用原来的数据，不用再取中间值
     # tasks in sim datasets
     task_list = sim_instruction_dict.keys()
@@ -724,19 +723,17 @@ def tasks_vq_json(sim_instruction_dict, ranges_info_path, commands_info_path, js
     image_id = 0
     # make json files
     for task in tqdm(task_list):
-    # for task in task_list:
         print("task is:",task)
         json_list = []
         json_saved_path =  os.path.join(json_path, 'sim')
         os.makedirs(json_saved_path, exist_ok=True)
-        image_id, json_list = make_oneSim_json(sim_path, sim_path_unload, commands_info_path, task, range_dict, json_list, image_id, sample_rate)
-        # print("json_list:",json_list)
+        image_id, json_list = make_oneSim_json(sim_path, commands_info_path, task, range_dict, json_list, image_id, sample_rate)
         with open(json_saved_path + '/{}.json'.format(task), 'w') as f:
             json.dump(json_list, f)
 
 
 
-def make_oneSim_json(root_path,root_path_unload,info_path,task,range_dict,json_list,image_id,sample_rate = 10):
+def make_oneSim_json(root_path, info_path, task, range_dict, json_list, image_id, sample_rate=10):
     # import ipdb; ipdb.set_trace()
 
     all_dict_path = os.path.join(info_path, "commands.npy")
@@ -765,19 +762,14 @@ def make_oneSim_json(root_path,root_path_unload,info_path,task,range_dict,json_l
 
     task_path = os.path.join(root_path, task)
 
-    print("processing task_path:",task_path)
-    if not os.path.exists(task_path):     #这里是先搜索v1数据集里有没有，如果没有就去用unload里的数据集
-        task_path = os.path.join(root_path_unload, task)
-    # print(all_dict.keys())
-
     if os.path.exists(task_path):
         episode_list = os.listdir(task_path) #['000672','000178',...]
         for episode in tqdm(episode_list):
-            episode_path = os.path.join(task_path, episode)  #'/wangdonglin/sim_quadruped_data_v1/go_to_texture_vase/000605'
-            episode_command_path = os.path.join(episode_path, "command") #/wangdonglin/sim_quadruped_data_v1/go_to_texture_vase/000605/command
+            episode_path = os.path.join(task_path, episode)
+            episode_command_path = os.path.join(episode_path, "command")
             if os.path.exists(episode_path): 
-                
-                if episode_path in all_dict.keys():  #'/dingpengxiang/Datasets/sim_quadruped_data_unload/unload_yellow_traybox/002288'
+                        
+                if episode_path in all_dict.keys():
                     commands_dict = all_dict[episode_path]
                     episode_length = len(commands_dict['dx'])
                     # print(episode_path,commands_dict)
@@ -851,48 +843,57 @@ def make_oneSim_json(root_path,root_path_unload,info_path,task,range_dict,json_l
 
 if __name__ == "__main__":
 
-    # import ipdb; ipdb.set_trace()
-    # 0206_test
-    # 仿真和真实的ranges用同一个
-    instructions_key = 'Full' #字典里套字典
-    ROOT_PATH='/dingpengxiang/Pengxiang/Quart++'
-    RAW_DATA_PATH='/dingpengxiang/Datasets/'
-
+    instructions_key = 'Full' 
+    
+    # Use relative paths - users should set RAW_DATA_PATH to their data location
+    # RAW_DATA_PATH should point to the parent directory containing sim_quadruped_data/
+    RAW_DATA_PATH = '/path/to/your/Datasets'  # TODO: Change this to your data path
+    
     # get proprioception information
     proprioception_keys = ['joint_pos', 'joint_vel', 'body_linear_vel', 'body_angular_vel', 'contact_states', 'body_pos', 'body_quat']
 
-    # get three ranges files of commands（real, sim, merged）
     
-    #info_path saved command.npy, get_json add frquency and range on the base of command.npy， merged_single_json combine all json as one real.json/sim.json,merged_multiple_json combine sim and real
+    #info_path saved command.npy, get_json add frquency and range on the base of command.npy
+    # merged_single_json combine all json as one real.json/sim.json, merged_multiple_json combine sim and real
 
-    sim_sample_rate = 10  # sim_command_dict里间隔的频率
-    sim_path = os.path.join(RAW_DATA_PATH, 'sim_quadruped_data_v1')  #'/wangdonglin/sim_quadruped_data_v1'
-    sim_path_unload = os.path.join(RAW_DATA_PATH, 'sim_quadruped_data_unload')  #'/wangdonglin/sim_quadruped_data_unload'
-    sim_info_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'sim_quadruped_data_info')  #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_quadruped_data_info'
+    sim_sample_rate = 10  # frequency of sim_command_dict (50Hz / 10 = 5Hz)
+    
+    # Input path - raw simulation data (v1 and unload data should be merged into one folder)
+    sim_path = os.path.join(RAW_DATA_PATH, 'sim_quadruped_data')
+    
+    # Output paths - processed data
+    sim_info_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'sim_quadruped_data_info')
+    sim_json_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'sim_json_path')
+    
     sim_instruction_dict = SIM_INSTRUCTION_DICT[instructions_key]
 
+    
+    # for simulation data training
+    tasks_vq_json(sim_instruction_dict, sim_info_path, sim_info_path, sim_json_path, sim_path, sim_sample_rate)
+    
+'''
+    # get three ranges files of commands (real, sim, merged)
+
+    # for real data training
+
+    get_real_json(real_instruction_dict, real_info_path, real_info_path, real_json_path, real_path, real_sample_rate)
     real_sample_rate = 2
     real_path = os.path.join(RAW_DATA_PATH, 'quadruped_data_with_comand')  #'/wangdonglin/quadruped_data_with_comand'
     real_info_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'real_quadruped_data_info') #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/real_quadruped_data_info'
     real_instruction_dict = REAL_INSTRUCTION_DICT[instructions_key]
+    get_sim_json(sim_instruction_dict, sim_info_path, sim_info_path, sim_json_path, sim_path, sim_sample_rate)
+
+    real_json_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'real_json_path')  #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/real_json_path'
+
+
+    # for merged data training
+    merged_single_json(sim_json_path, real_json_path, sim_instruction_dict, real_instruction_dict)  #Real and sim jsons are respectively fused into real.json and sim.json
 
     merged_info_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'merged_quadruped_data_info')  #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/merged_quadruped_data_info'
 
-    # for real data training
-    real_json_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'real_json_path')  #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/real_json_path'
-    # get_real_json(real_instruction_dict, real_info_path, real_info_path, real_json_path, real_path, real_sample_rate)
-    
-    # for simulation data training
-    sim_json_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'sim_json_path') #'/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_json_path'
-    tasks_vq_json(sim_instruction_dict, sim_info_path, sim_info_path, sim_json_path, sim_path, sim_path_unload, sim_sample_rate)
-    # get_sim_json(sim_instruction_dict, sim_info_path, sim_info_path, sim_json_path, sim_path, sim_path_unload, sim_sample_rate)
+    merged_json_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'merged_json_path')
+    get_real_json(real_instruction_dict, merged_info_path, real_info_path, merged_json_path, real_path, real_sample_rate)
+    get_sim_json(sim_instruction_dict, merged_info_path, sim_info_path, merged_json_path, sim_path, sim_sample_rate)  #command.npy about merge_info
 
-    # merged_single_json(sim_json_path, real_json_path, sim_instruction_dict, real_instruction_dict)  #real和sim的json分别各自融合子任务为real.json和sim.json
-
-    # for merged data training
-    # merged_json_path = os.path.join(ROOT_PATH, 'datasets', instructions_key, 'merged_json_path')
-    # get_real_json(real_instruction_dict, merged_info_path, real_info_path, merged_json_path, real_path, real_sample_rate)
-    # get_sim_json(sim_instruction_dict, merged_info_path, sim_info_path, merged_json_path, sim_path, sim_path_unload, sim_sample_rate)  #command.npy导入的是merge_info版本的，
-
-    # merged_multiple_json(merged_json_path, sim_instruction_dict, real_instruction_dict)  #讨论sim和real的融合比例
-
+    merged_multiple_json(merged_json_path, sim_instruction_dict, real_instruction_dict)  #About the fusion ratio of sim and real
+'''

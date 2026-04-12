@@ -1,2 +1,43 @@
-<vq_state_dict/Sequence_vq_10_each_conv.pt
-<vq_state_dict/Sequence_vq_10_each_conv.pt
+# VQ model checkpoints
+vq_state_dict/
+
+# IDE and editor
+.qoder/
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# OS
+.DS_Store
+Thumbs.db

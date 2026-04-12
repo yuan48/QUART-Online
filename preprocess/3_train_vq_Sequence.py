@@ -1,26 +1,23 @@
+#This file is for training the vq model
 import torch
 import torch.nn as nn
-from RVQ.residual_vq import RVQ
-from RVQ.vq_Sequence import RVQ_Seq, RVQ_Seq_10
-from RVQ.dataset import action_tokenize_dataset,action_tokenize_dataset_n
+import sys
+import os
+
+# Add project root to path for imports
+ROOT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT_PATH)
+
+from models.RVQ.residual_vq import RVQ
+from models.RVQ.vq_Sequence import RVQ_Seq, RVQ_Seq_10
+from models.RVQ.dataset import action_tokenize_dataset, action_tokenize_dataset_n
 from torch.utils.data import DataLoader, Subset, random_split
 from torch import optim
 from tqdm import tqdm
-import os
-import wandb
-
-
-current_dir = os.getcwd()
-print("Current working directory:", current_dir)
-root_path='/dingpengxiang/Pengxiang/Quart++'
-
-os.chdir(root_path)
-
 
 input_dim = 12  #The same as dataset $input_dim. If change one, change all.
-timestep="n_Seq"  #one,n
+timestep="n_Seq"  #one, n, n_Seq
 step=10
-# NetType='mlp'
 
 split_mode='each'
 
@@ -28,7 +25,7 @@ split_mode='each'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if timestep=="one":
     model = RVQ(layers_hidden=[2048, 2048, 2048, 512], input_dim=input_dim, K=512, num_quantizers=2, output_act=False)
-    trainset = action_tokenize_dataset('/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_quadruped_data_info/vq_data.npy')
+    trainset = action_tokenize_dataset(os.path.join(ROOT_PATH, 'datasets/Full/sim_quadruped_data_info/vq_data.npy'))
 elif timestep=="n":  # MLP-based n-sequence compression (not used in final version)
     model = RVQ_n(layers_hidden=[2048, 2048, 2048, 512], input_dim=input_dim, K=512, num_quantizers=2, output_act=False)
     trainset = action_tokenize_dataset_n(step)
@@ -36,7 +33,7 @@ elif timestep=="n":  # MLP-based n-sequence compression (not used in final versi
 elif timestep=="n_oneSlice": # Flatten all timesteps to 1D (not used in final version)
     input_dim=36
     model = RVQ_n(layers_hidden=[2048, 2048, 2048, 512], input_dim=input_dim, K=512, num_quantizers=3, output_act=False)
-    trainset = action_tokenize_dataset_n('/dingpengxiang/Pengxiang/Quart++/datasets/Full/sim_quadruped_data_info/vq_data_step_3_oneSlice.npy')
+    trainset = action_tokenize_dataset_n(os.path.join(ROOT_PATH, 'datasets/Full/sim_quadruped_data_info/vq_data_step_3_oneSlice.npy'))
 elif timestep=="n_Seq":  # Final version: sequence-based temporal modeling
     split_mode='Each'
     if step==3:
@@ -133,8 +130,13 @@ for epoch in range(50):
         best_epoch=epoch+1
         print("best round saved! current best_val_loss:",best_val_loss)
         best_model_state_dict = model.state_dict()
-        # torch.save(best_model_state_dict, "state_dict/VQ/"+save_pt_name)
+        save_dir = os.path.join(ROOT_PATH, 'vq_state_dict', 'VQ')
+        os.makedirs(save_dir, exist_ok=True)
+        torch.save(best_model_state_dict, os.path.join(save_dir, save_pt_name))
 
 
-# torch.save(best_model_state_dict, "state_dict/VQ/"+save_pt_name)
+save_dir = os.path.join(ROOT_PATH, 'vq_state_dict', 'VQ')
+os.makedirs(save_dir, exist_ok=True)
+torch.save(best_model_state_dict, os.path.join(save_dir, save_pt_name))
+print("Model saved to:", os.path.join(save_dir, save_pt_name))
 print("best loss epoch {}, loss is {}".format(best_epoch, best_val_loss))

@@ -449,23 +449,40 @@ def play_go1_plus(model, args, task_cfg):
     gait_instruction = 'normally with a trotting gait'
     
     
-
-    if task == 'go_to':
-        task_instruction = f'go to the {object_instruction}' 
-    elif task == 'go_avoid':
-        task_instruction = f'go to the {object_instruction} and avoid the obstacle'
-    elif task == 'stop':
-        task_instruction = f'stop the {object_instruction}'
-    elif task == 'crawl':
-        task_instruction = f'crawl through the bar'
-    elif task == 'distinguish':
-        task_instruction = f'distinguish letter {object_instruction}'
-    elif task == 'go_through':
-        task_instruction = f'go through the {object_instruction}'
-    elif task == 'unload':
-        task_instruction = f'unload the ball into the {object_instruction}'
+    if args.test_type == 'seen':
+        if task == 'go_to':
+            task_instruction = f'go to the {object_instruction}' 
+        elif task == 'go_avoid':
+            task_instruction = f'go to the {object_instruction} and avoid the obstacle'
+        elif task == 'stop':
+            task_instruction = f'stop the {object_instruction}'
+        elif task == 'crawl':
+            task_instruction = f'crawl through the bar'
+        elif task == 'distinguish':
+            task_instruction = f'distinguish letter {object_instruction}'
+        elif task == 'go_through':
+            task_instruction = f'go through the {object_instruction}'
+        elif task == 'unload':
+            task_instruction = f'unload the ball into the {object_instruction}'
+        else:
+            raise NotImplementedError
     else:
-        raise NotImplementedError
+        if task == 'go_to':
+            task_instruction = f'naviagte to the {object_instruction} from the left side' 
+        elif task == 'go_avoid':
+            task_instruction = f'navigate to the {object_instruction} while avoiding obstacles'
+        elif task == 'stop':
+            task_instruction = f'stop the {object_instruction}'
+        elif task == 'crawl':
+            task_instruction = f'move under the bar'
+        elif task == 'distinguish':
+            task_instruction = f'identify letter {object_instruction}'
+        elif task == 'go_through':
+            task_instruction = f'traverse the {object_instruction}'
+        elif task == 'unload':
+            task_instruction = f'deposit the ball into the {object_instruction}'
+        else:
+            raise NotImplementedError
 
     print('Instruction is:', task_instruction)  # go to the xxx + normally with a trotting gait
     

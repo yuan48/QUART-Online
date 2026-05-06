@@ -419,10 +419,11 @@ If you find this work helpful, please consider citing:
 ```bibtex
 @article{quart2024,
   title={QUART-Online: Latency-Free Large Multimodal Language Model for Quadruped Robot Learning},
-  author={Your Authors},
+  author= {Tong, Xinyang and Ding, Pengxiang and Wang, Donglin and Zhang, Wenjie and Cui, Can and Sun, Mingyang and Fan, Yiguo and Han, Zhao and Zhang, Hongyin and Dang, Yonghao and Huang, Siteng and Lyu, Shangke},
   journal={arXiv preprint arXiv:2412.15557},
   year={2024}
 }
+
 ```
 
 ---

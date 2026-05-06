@@ -1,18 +1,5 @@
 import sys
-# sys.path.append('/dingpengxiang/Pengxiang/walk-these-ways/quart_scripts')
 
-# SCRIPT_PATH='/dingpengxiang/Pengxiang/Quart++'
-# sys.path.append(SCRIPT_PATH)
-
-# ROOT_PATH = '/dingpengxiang/Pengxiang/Quart++/isaacSim/videos'
-# # os.path.join(MINI_GYM_ROOT_DIR[:-16], 'quadruped_rt1')
-# sys.path.append(ROOT_PATH)
-
-# ENV_PATH='/dingpengxiang/Pengxiang/walk-these-ways'
-# sys.path.append(ENV_PATH)
-
-# ORI_PATH='/dingpengxiang/Pengxiang/walk-these-ways/test_scripts'
-# sys.path.append(ORI_PATH)
 import os
 PROJECT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import sys
@@ -449,7 +436,7 @@ def play_go1_plus(model, args, task_cfg):
     gait_instruction = 'normally with a trotting gait'
     
     
-    if args.test_type == 'seen':
+    if args.test_type == 'seen' or args.test_type == 'unseen_visual':
         if task == 'go_to':
             task_instruction = f'go to the {object_instruction}' 
         elif task == 'go_avoid':
@@ -466,7 +453,7 @@ def play_go1_plus(model, args, task_cfg):
             task_instruction = f'unload the ball into the {object_instruction}'
         else:
             raise NotImplementedError
-    else:
+    elif args.test_type == 'unseen_language':
         if task == 'go_to':
             task_instruction = f'naviagte to the {object_instruction} from the left side' 
         elif task == 'go_avoid':

@@ -77,7 +77,10 @@ if __name__ == "__main__":
     args.headless = args.headless.lower() == 'true'
     # task_lists=ast.literal_eval(settings['task_lists'])  
     task_module = importlib.import_module(args.task_lists)
-    task_lists = task_module.task_lists 
+    if args.test_type == 'seen' or args.test_type == 'unseen_language':
+        task_lists = task_module.task_lists
+    elif args.test_type == 'unseen_visual':
+        task_lists = task_module.unseen_task_lists
 
     print("CONFIG SETTING: ", args)
     print("*****************")

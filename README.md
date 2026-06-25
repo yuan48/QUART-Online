@@ -442,19 +442,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📧 Contact
-
-For questions and discussions, please:
-
-- Open an [issue](https://github.com/yuan48/QUART-Online/issues)
-- Visit our [project page](https://quart-online.github.io/)
-- Read the [paper](https://arxiv.org/abs/2412.15576)
-
----
-
 <div align="center">
-
-**Made with ❤️ for the robotics community**
 
 ⭐ Star us on GitHub if you find this project useful!
 
